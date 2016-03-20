@@ -93,7 +93,7 @@ message TsDelResp {
 }
 
 message TsInterpolation {
-  required bytes base = 1;
+  required bytes query = 1;
   repeated RpbPair interpolations = 2;
 }
 
