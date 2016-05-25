@@ -23,11 +23,15 @@ pb_test_() ->
                                {?MD_DELETED, true}
                               ]),
                  Value = <<"test value">>,
-                 {MetaData2, Value2} = riak_pb_kv_codec:decode_content(
-                                         riak_kv_pb:decode_rpbcontent(
-                                           iolist_to_binary(riak_kv_pb:encode_rpbcontent(
-                                             riak_pb_kv_codec:encode_content({MetaData, Value}))))),
-                 ?assertEqual(lists:sort(dict:to_list(MetaData)), lists:sort(dict:to_list(MetaData2))),
+                 RpbContent = riak_pb_kv_codec:encode_content({MetaData, Value}),
+                 RpbContentEnc = riak_kv:encode_msg(RpbContent, [{verify, true}]),
+                 RpbContentBin = iolist_to_binary(RpbContentEnc),
+                 RpbContent2 = riak_kv:decode_msg(RpbContentBin, rpbcontent),
+                 {MetaData2, Value2} = riak_pb_kv_codec:decode_content(RpbContent2),
+                 MD1 = lists:sort(dict:to_list(MetaData)), 
+                 MD2 = lists:sort(dict:to_list(MetaData2)), 
+                 ?assertEqual(length(MD1), length(MD2)),
+                 [ ?assertEqual(Want, Got) || {Want, Got} <- lists:zip(MD1, MD2)],
                  ?assertEqual(Value, Value2)
              end)},
      {"deleted header encode decode",
