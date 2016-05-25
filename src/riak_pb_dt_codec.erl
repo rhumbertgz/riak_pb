@@ -21,7 +21,7 @@
 %% -------------------------------------------------------------------
 -module(riak_pb_dt_codec).
 
--include("riak_dt_pb.hrl").
+-include("riak_dt.hrl").
 
 -export([
          encode_fetch_request/2,

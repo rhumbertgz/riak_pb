@@ -27,7 +27,7 @@
 %% code.
 -module(riak_pb_search_codec).
 
--include("riak_search_pb.hrl").
+-include("riak_search.hrl").
 
 -export([encode_search_doc/1,
          decode_search_doc/1]).

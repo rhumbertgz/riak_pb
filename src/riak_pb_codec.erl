@@ -25,7 +25,7 @@
 %% not normally need to be used in application code.
 -module(riak_pb_codec).
 
--include("riak_pb.hrl").
+-include("riak.hrl").
 
 -export([encode/1,      %% riakc_pb:encode
          decode/2,      %% riakc_pb:decode

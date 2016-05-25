@@ -5,7 +5,6 @@ priv/*
 *.o
 ebin/*.beam
 ebin/riak_pb.app
-include/*_pb.hrl
 doc/*
 .qc
 .eqc-info
@@ -15,6 +14,19 @@ src/riak_pb_messages.erl
 dialyzer_unhandled_warnings
 dialyzer_warnings
 .rebar/*
+
+include/*_pb.hrl
+include/riak.hrl
+include/riak_dt.hrl
+include/riak_kv.hrl
+include/riak_search.hrl
+include/riak_yokozuna.hrl
+src/riak.erl
+src/riak_dt.erl
+src/riak_kv.erl
+src/riak_pb_messages.erl
+src/riak_search.erl
+src/riak_yokozuna.erl
 
 # Java
 target/*
