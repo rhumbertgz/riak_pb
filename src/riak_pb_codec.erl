@@ -81,7 +81,7 @@ encode(Msg) when is_atom(Msg) ->
 encode(Msg) when is_tuple(Msg) ->
     MsgType = element(1, Msg),
     Encoder = encoder_for(MsgType),
-    [msg_code(MsgType) | Encoder:encode(Msg)].
+    [msg_code(MsgType) | Encoder:encode_msg(Msg)].
 
 %% @doc Decode a protocol buffer message given its type - if no bytes
 %% return the atom for the message code. Replaces `riakc_pb:decode/2'.
@@ -90,7 +90,7 @@ decode(MsgCode, <<>>) ->
     msg_type(MsgCode);
 decode(MsgCode, MsgData) ->
     Decoder = decoder_for(MsgCode),
-    Decoder:decode(msg_type(MsgCode), MsgData).
+    Decoder:decode_msg(MsgData, msg_type(MsgCode)).
 
 %% @doc Converts a message code into the symbolic message
 %% name. Replaces `riakc_pb:msg_type/1'.
