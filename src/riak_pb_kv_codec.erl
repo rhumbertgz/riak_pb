@@ -27,7 +27,7 @@
 
 -module(riak_pb_kv_codec).
 
--include("riak_kv.hrl").
+-include("riak_kv_pb.hrl").
 -include("riak_pb_kv_codec.hrl").
 
 -ifdef(TEST).
