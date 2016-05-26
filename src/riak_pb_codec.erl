@@ -81,7 +81,8 @@ encode(Msg) when is_atom(Msg) ->
 encode(Msg) when is_tuple(Msg) ->
     MsgType = element(1, Msg),
     Encoder = encoder_for(MsgType),
-    [msg_code(MsgType) | Encoder:encode_msg(Msg)].
+    M = maybe_fixup(Msg),
+    [msg_code(MsgType) | Encoder:encode_msg(M)].
 
 %% @doc Decode a protocol buffer message given its type - if no bytes
 %% return the atom for the message code. Replaces `riakc_pb:decode/2'.
@@ -367,6 +368,14 @@ decode_repl('TRUE') -> true;
 decode_repl('FALSE') -> false;
 decode_repl('REALTIME') -> realtime;
 decode_repl('FULLSYNC') -> fullsync.
+
+%% @doc Fixup messages that have bytes fields
+%% @private
+maybe_fixup(#rpberrorresp{errmsg=ErrMsg}=Msg) when is_list(ErrMsg) ->
+    ErrMsgBin = list_to_binary(ErrMsg),
+    Msg#rpberrorresp{errmsg=ErrMsgBin};
+maybe_fixup(Msg) ->
+    Msg.
 
 safe_to_atom(Binary) when is_binary(Binary) ->
     try
